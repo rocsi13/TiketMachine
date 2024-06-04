@@ -1,0 +1,4 @@
+### Create a new registration
+
+GET localHost:8080/actuator
+

@@ -1,0 +1,30 @@
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27018:27018'
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password13
+    ports:
+      - '5433:5433'
+
+  events:
+    image: events-service:0.0.1-SNAPSHOT
+    depends_on:
+      - postgres
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+    ports:
+      - '8082:8082'
+  registration:
+      image: registration-service:0.0.1-SNAPSHOT
+      depends_on:
+        - mongo
+        - events
+      environment:
+        - "SPRING_PROFILES_ACTIVE=docker"
+      ports:
+        - '8080:8080'
